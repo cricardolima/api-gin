@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"net/http"
-
 	"api-gin/database"
 	"api-gin/models"
 	"github.com/gin-gonic/gin"
+	_ "github.com/swaggo/swag/example/celler/httputil"
+	"net/http"
 )
 
 func ExibeTodosAlunos(c *gin.Context) {
@@ -20,6 +20,17 @@ func Saudacao(c *gin.Context) {
 		"API diz:": "E ai " + nome + ", tudo beleza?",
 	})
 }
+
+// CriaNovoAluno godoc
+// @Summary Cria novo aluno
+// @Description Rota para criar novo aluno
+// @Tags alunos
+// @Accept json
+// @Produce json
+// @Param aluno body models.Aluno true "Modelo de Aluno"
+// @Success 200 {object} models.Aluno
+// @Failure 400 {object} httputil.HTTPError
+// @Router /alunos [post]
 
 func CriaNovoAluno(c *gin.Context) {
 	var aluno models.Aluno
@@ -37,6 +48,19 @@ func CriaNovoAluno(c *gin.Context) {
 	database.DB.Create(&aluno)
 	c.JSON(http.StatusOK, aluno)
 }
+
+// BuscaAlunoPorId godoc
+// @Summary Busca um aluno
+// @Description busca string por ID
+// @Tags alunos
+// @Accept json
+// @Produce json
+// @Param id path int true "Aluno ID"
+// @Success 200 {object} models.Aluno
+// @Failure 400 {object} httputil.HTTPError
+// @Failure 404 {object} httputil.HTTPError
+// @Failure 500 {object} httputil.HTTPError
+// @Router /alunos/{id} [get]
 
 func BuscaAlunoPorID(c *gin.Context) {
 	var aluno models.Aluno
